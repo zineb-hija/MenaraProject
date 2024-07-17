@@ -1,5 +1,6 @@
 package com.example.menaraproject.Controller;
 
+import com.example.menaraproject.Model.Encadrant;
 import com.example.menaraproject.Model.Projet;
 import com.example.menaraproject.Model.Tache;
 import com.example.menaraproject.Service.EncadrantService;
@@ -9,29 +10,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/encadrant")
+@RequestMapping("/api/encadrants")
 public class EncadrantController {
 
     @Autowired
     private EncadrantService encadrantService;
-
-    @PostMapping("/projet")
-    public Projet ajouterProjet(@RequestBody Projet projet) {
-        return encadrantService.ajouterProjet(projet);
+    @GetMapping
+    public List<Encadrant> getAllEncadrants() {
+        return encadrantService.getAllEncadrants();
     }
 
-    @PostMapping("/tache")
-    public Tache ajouterTache(@RequestBody Tache tache) {
-        return encadrantService.ajouterTache(tache);
+    @GetMapping("/{id}")
+    public Encadrant getEncadrantById(@PathVariable Long id) {
+        return encadrantService.getEncadrantById(id);
     }
 
-    @GetMapping("/projets")
-    public List<Projet> listerProjets() {
-        return encadrantService.listerProjets();
+    @PostMapping
+    public Encadrant createEncadrant(@RequestBody Encadrant encadrant) {
+        return encadrantService.createEncadrant(encadrant);
     }
 
-    @GetMapping("/taches")
-    public List<Tache> listerTaches() {
-        return encadrantService.listerTaches();
+    @PutMapping("/{id}")
+    public Encadrant updateEncadrant(@PathVariable Long id, @RequestBody Encadrant encadrantDetails) {
+        return encadrantService.updateEncadrant(id, encadrantDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteEncadrant(@PathVariable Long id) {
+        encadrantService.deleteEncadrant(id);
     }
 }
+
+

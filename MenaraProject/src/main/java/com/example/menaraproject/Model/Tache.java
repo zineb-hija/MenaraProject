@@ -3,6 +3,8 @@ package com.example.menaraproject.Model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 
 @Entity
 public class Tache {
@@ -12,15 +14,30 @@ public class Tache {
     private Long id;
     private String titre;
     private String description;
-    private String dateLimite;
+    private Date dateLimite;
     private String statut;
 
     @ManyToOne
     @JoinColumn(name = "projet_id")
     private Projet projet;
 
+    @ManyToOne
+    @JoinColumn(name = "stagiaire_id")
+    private Stagiaire stagiaire;
+    @ManyToOne
+    @JoinColumn(name = "encadrant_id")
+    private Encadrant encadrant;
+
     // Getters and Setters
 
+
+    public Encadrant getEncadrant() {
+        return encadrant;
+    }
+
+    public void setEncadrant(Encadrant encadrant) {
+        this.encadrant = encadrant;
+    }
 
     public Long getId() {
         return id;
@@ -46,11 +63,11 @@ public class Tache {
         this.description = description;
     }
 
-    public String getDateLimite() {
+    public Date getDateLimite() {
         return dateLimite;
     }
 
-    public void setDateLimite(String dateLimite) {
+    public void setDateLimite(Date dateLimite) {
         this.dateLimite = dateLimite;
     }
 
@@ -68,5 +85,13 @@ public class Tache {
 
     public void setProjet(Projet projet) {
         this.projet = projet;
+    }
+
+    public Stagiaire getStagiaire() {
+        return stagiaire;
+    }
+
+    public void setStagiaire(Stagiaire stagiaire) {
+        this.stagiaire = stagiaire;
     }
 }

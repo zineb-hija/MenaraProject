@@ -3,6 +3,7 @@ package com.example.menaraproject.Model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Stagiaire {
@@ -24,10 +25,7 @@ public class Stagiaire {
     @JoinColumn(name = "rh_id")
     private RH rh;
     @OneToMany(mappedBy = "stagiaire")
-    private List<Projet> projets;
-
-    // Getters and Setters
-
+    private Set<Tache> taches;
 
     public Long getId() {
         return id;
@@ -93,11 +91,11 @@ public class Stagiaire {
         this.rh = rh;
     }
 
-    public List<Projet> getProjets() {
-        return projets;
+    public Set<Tache> getTaches() {
+        return taches;
     }
 
-    public void setProjets(List<Projet> projets) {
-        this.projets = projets;
+    public void setTaches(Set<Tache> taches) {
+        this.taches = taches;
     }
 }

@@ -5,6 +5,7 @@ package com.example.menaraproject.Model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class RH {
@@ -15,14 +16,13 @@ public class RH {
     private String nom;
     private String prenom;
     private String email;
+    private String password;
 
     @OneToMany(mappedBy = "rh")
-    private List<Encadrant> encadrants;
+    private Set<Encadrant> encadrants;
 
     @OneToMany(mappedBy = "rh")
-    private List<Stagiaire> stagiaires;
-
-    // Getters and Setters
+    private Set<Stagiaire> stagiaires;
 
     public Long getId() {
         return id;
@@ -56,19 +56,27 @@ public class RH {
         this.email = email;
     }
 
-    public List<Encadrant> getEncadrants() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Encadrant> getEncadrants() {
         return encadrants;
     }
 
-    public void setEncadrants(List<Encadrant> encadrants) {
+    public void setEncadrants(Set<Encadrant> encadrants) {
         this.encadrants = encadrants;
     }
 
-    public List<Stagiaire> getStagiaires() {
+    public Set<Stagiaire> getStagiaires() {
         return stagiaires;
     }
 
-    public void setStagiaires(List<Stagiaire> stagiaires) {
+    public void setStagiaires(Set<Stagiaire> stagiaires) {
         this.stagiaires = stagiaires;
     }
 }

@@ -1,10 +1,8 @@
 package com.example.menaraproject.Model;
 
-
-
 import jakarta.persistence.*;
-
-import java.util.List;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Projet {
@@ -14,17 +12,15 @@ public class Projet {
     private Long id;
     private String titre;
     private String description;
-    private String dateDebut;
-    private String dateFin;
+    private Date dateDebut;
+    private Date dateFin;
 
     @ManyToOne
-    @JoinColumn(name = "stagiaire_id")
-    private Stagiaire stagiaire;
+    @JoinColumn(name = "encadrant_id")
+    private Encadrant encadrant;
 
     @OneToMany(mappedBy = "projet")
-    private List<Tache> taches;
-
-    // Getters and Setters
+    private Set<Tache> taches;
 
     public Long getId() {
         return id;
@@ -50,35 +46,35 @@ public class Projet {
         this.description = description;
     }
 
-    public String getDateDebut() {
+    public Date getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(String dateDebut) {
+    public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public String getDateFin() {
+    public Date getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(String dateFin) {
+    public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
     }
 
-    public Stagiaire getStagiaire() {
-        return stagiaire;
+    public Encadrant getEncadrant() {
+        return encadrant;
     }
 
-    public void setStagiaire(Stagiaire stagiaire) {
-        this.stagiaire = stagiaire;
+    public void setEncadrant(Encadrant encadrant) {
+        this.encadrant = encadrant;
     }
 
-    public List<Tache> getTaches() {
+    public Set<Tache> getTaches() {
         return taches;
     }
 
-    public void setTaches(List<Tache> taches) {
+    public void setTaches(Set<Tache> taches) {
         this.taches = taches;
     }
 }
