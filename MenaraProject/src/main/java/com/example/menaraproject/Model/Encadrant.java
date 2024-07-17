@@ -1,8 +1,7 @@
 package com.example.menaraproject.Model;
 
 import jakarta.persistence.*;
-
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Encadrant {
@@ -13,15 +12,20 @@ public class Encadrant {
     private String nom;
     private String prenom;
     private String email;
+    private String password;
+
     @ManyToOne
     @JoinColumn(name = "rh_id")
     private RH rh;
 
     @OneToMany(mappedBy = "encadrant")
-    private List<Stagiaire> stagiaires;
+    private Set<Stagiaire> stagiaires;
 
-    // Getters and Setters
+    @OneToMany(mappedBy = "encadrant")
+    private Set<Projet> projets;
 
+    @OneToMany(mappedBy = "encadrant")
+    private Set<Tache> taches;
 
     public Long getId() {
         return id;
@@ -55,6 +59,14 @@ public class Encadrant {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public RH getRh() {
         return rh;
     }
@@ -63,11 +75,27 @@ public class Encadrant {
         this.rh = rh;
     }
 
-    public List<Stagiaire> getStagiaires() {
+    public Set<Stagiaire> getStagiaires() {
         return stagiaires;
     }
 
-    public void setStagiaires(List<Stagiaire> stagiaires) {
+    public void setStagiaires(Set<Stagiaire> stagiaires) {
         this.stagiaires = stagiaires;
+    }
+
+    public Set<Projet> getProjets() {
+        return projets;
+    }
+
+    public void setProjets(Set<Projet> projets) {
+        this.projets = projets;
+    }
+
+    public Set<Tache> getTaches() {
+        return taches;
+    }
+
+    public void setTaches(Set<Tache> taches) {
+        this.taches = taches;
     }
 }

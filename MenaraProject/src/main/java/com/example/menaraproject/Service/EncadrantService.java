@@ -1,7 +1,9 @@
 package com.example.menaraproject.Service;
 
+import com.example.menaraproject.Model.Encadrant;
 import com.example.menaraproject.Model.Projet;
 import com.example.menaraproject.Model.Tache;
+import com.example.menaraproject.Repository.EncadrantRepo;
 import com.example.menaraproject.Repository.ProjetRepo;
 import com.example.menaraproject.Repository.TacheRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,25 +14,34 @@ import java.util.List;
 @Service
 public class EncadrantService {
     @Autowired
-    private ProjetRepo projetRepo;
+    private EncadrantRepo encadrantRepo;
 
-    @Autowired
-    private TacheRepo tacheRepo;
-
-    public Projet ajouterProjet(Projet projet) {
-        return projetRepo.save(projet);
+    public List<Encadrant> getAllEncadrants() {
+        return encadrantRepo.findAll();
     }
 
-    public Tache ajouterTache(Tache tache) {
-        return tacheRepo.save(tache);
+    public Encadrant getEncadrantById(Long id) {
+        return encadrantRepo.findById(id).orElse(null);
     }
 
-    public List<Projet> listerProjets() {
-        return projetRepo.findAll();
+    public Encadrant createEncadrant(Encadrant encadrant) {
+        return encadrantRepo.save(encadrant);
     }
 
-    public List<Tache> listerTaches() {
-        return tacheRepo.findAll();
+    public Encadrant updateEncadrant(Long id, Encadrant encadrantDetails) {
+        Encadrant encadrant = encadrantRepo.findById(id).orElse(null);
+        if (encadrant != null) {
+            encadrant.setNom(encadrantDetails.getNom());
+            encadrant.setPrenom(encadrantDetails.getPrenom());
+            encadrant.setEmail(encadrantDetails.getEmail());
+            encadrant.setPassword(encadrantDetails.getPassword());
+            return encadrantRepo.save(encadrant);
+        }
+        return null;
+    }
+
+    public void deleteEncadrant(Long id) {
+        encadrantRepo.deleteById(id);
     }
 
 

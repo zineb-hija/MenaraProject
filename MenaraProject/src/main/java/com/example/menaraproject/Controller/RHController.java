@@ -11,39 +11,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rh")
+@RequestMapping("/api/rhs")
 public class RHController {
-
     @Autowired
     private RHService rhService;
 
+    @GetMapping
+    public List<RH> getAllRHs() {
+        return rhService.getAllRHs();
+    }
+
+    @GetMapping("/{id}")
+    public RH getRHById(@PathVariable Long id) {
+        return rhService.getRHById(id);
+    }
+
     @PostMapping
-    public RH ajouterRH(@RequestBody RH rh) {
-        return rhService.ajouterRH(rh);
+    public RH createRH(@RequestBody RH rh) {
+        return rhService.createRH(rh);
     }
 
-    @PostMapping("/encadrant")
-    public Encadrant ajouterEncadrant(@RequestBody Encadrant encadrant) {
-        return rhService.ajouterEncadrant(encadrant);
+    @PutMapping("/{id}")
+    public RH updateRH(@PathVariable Long id, @RequestBody RH rhDetails) {
+        return rhService.updateRH(id, rhDetails);
     }
 
-    @DeleteMapping("/encadrant/{id}")
-    public void supprimerEncadrant(@PathVariable Long id) {
-        rhService.supprimerEncadrant(id);
-    }
-
-    @PostMapping("/stagiaire")
-    public Stagiaire ajouterStagiaire(@RequestBody Stagiaire stagiaire) {
-        return rhService.ajouterStagiaire(stagiaire);
-    }
-
-    @DeleteMapping("/stagiaire/{id}")
-    public void supprimerStagiaire(@PathVariable Long id) {
-        rhService.supprimerStagiaire(id);
-    }
-
-    @GetMapping("/stagiaires")
-    public List<Stagiaire> listerStagiaires() {
-        return rhService.listerStagiaires();
+    @DeleteMapping("/{id}")
+    public void deleteRH(@PathVariable Long id) {
+        rhService.deleteRH(id);
     }
 }

@@ -15,35 +15,34 @@ import java.util.List;
 public class RHService {
 
     @Autowired
-    private EncadrantRepo encadrantRepo;
-
-    @Autowired
-    private StagiaireRepo stagiaireRepo;
-
-    @Autowired
     private RHRepo rhRepo;
+    public List<RH> getAllRHs() {
+        return rhRepo.findAll();
+    }
 
-    public RH ajouterRH(RH rh) {
+    public RH getRHById(Long id) {
+        return rhRepo.findById(id).orElse(null);
+    }
+
+    public RH createRH(RH rh) {
         return rhRepo.save(rh);
     }
 
-    public Encadrant ajouterEncadrant(Encadrant encadrant) {
-        return encadrantRepo.save(encadrant);
+    public RH updateRH(Long id, RH rhDetails) {
+        RH rh = rhRepo.findById(id).orElse(null);
+        if (rh != null) {
+            rh.setNom(rhDetails.getNom());
+            rh.setPrenom(rhDetails.getPrenom());
+            rh.setEmail(rhDetails.getEmail());
+            rh.setPassword(rhDetails.getPassword());
+            return rhRepo.save(rh);
+        }
+        return null;
     }
 
-    public void supprimerEncadrant(Long id) {
-        encadrantRepo.deleteById(id);
+    public void deleteRH(Long id) {
+        rhRepo.deleteById(id);
     }
 
-    public Stagiaire ajouterStagiaire(Stagiaire stagiaire) {
-        return stagiaireRepo.save(stagiaire);
-    }
 
-    public void supprimerStagiaire(Long id) {
-        stagiaireRepo.deleteById(id);
-    }
-
-    public List<Stagiaire> listerStagiaires() {
-        return stagiaireRepo.findAll();
-    }
 }
