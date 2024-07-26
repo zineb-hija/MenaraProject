@@ -1,21 +1,19 @@
-package com.example.menaraproject.Model;
+package com.example.menaraproject.security.model;
 
+import com.example.menaraproject.Model.Tache;
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Stagiaire {
+public class Stagiaire extends User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nom;
-    private String prenom;
-    private String email;
+
     private String ecole;
     private String statut;
+    private Date datenaissance;
+
 
     @ManyToOne
     @JoinColumn(name = "encadrant_id")
@@ -26,38 +24,6 @@ public class Stagiaire {
     private RH rh;
     @OneToMany(mappedBy = "stagiaire")
     private Set<Tache> taches;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getEcole() {
         return ecole;
@@ -73,6 +39,14 @@ public class Stagiaire {
 
     public void setStatut(String statut) {
         this.statut = statut;
+    }
+
+    public Date getDatenaissance() {
+        return datenaissance;
+    }
+
+    public void setDatenaissance(Date datenaissance) {
+        this.datenaissance = datenaissance;
     }
 
     public Encadrant getEncadrant() {

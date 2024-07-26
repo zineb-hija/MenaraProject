@@ -1,6 +1,8 @@
 package com.example.menaraproject.Model;
 
 
+import com.example.menaraproject.security.model.Encadrant;
+import com.example.menaraproject.security.model.Stagiaire;
 import jakarta.persistence.*;
 
 import java.util.Date;

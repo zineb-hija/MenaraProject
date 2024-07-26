@@ -1,5 +1,6 @@
 package com.example.menaraproject.Model;
 
+import com.example.menaraproject.security.model.Encadrant;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Set;

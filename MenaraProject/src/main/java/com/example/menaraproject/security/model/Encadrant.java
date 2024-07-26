@@ -1,18 +1,23 @@
-package com.example.menaraproject.Model;
+package com.example.menaraproject.security.model;
 
+import com.example.menaraproject.Model.Projet;
+import com.example.menaraproject.Model.Tache;
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Encadrant {
+public class Encadrant extends User{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nom;
-    private String prenom;
-    private String email;
-    private String password;
+    public Encadrant() {
+        super();
+    }
+
+
+
+    private Date datenaissance;
+
 
     @ManyToOne
     @JoinColumn(name = "rh_id")
@@ -26,45 +31,16 @@ public class Encadrant {
 
     @OneToMany(mappedBy = "encadrant")
     private Set<Tache> taches;
-
-    public Long getId() {
-        return id;
+    public void addProjet(Projet projet) {
+        this.projets.add(projet);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Date getDatenaissance() {
+        return datenaissance;
     }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setDatenaissance(Date datenaissance) {
+        this.datenaissance = datenaissance;
     }
 
     public RH getRh() {
