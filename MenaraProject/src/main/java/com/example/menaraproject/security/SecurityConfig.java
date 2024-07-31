@@ -64,6 +64,13 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.POST, "/api/encadrant/**").hasAuthority("ENCADRANT")
                         .requestMatchers(HttpMethod.GET, "/api/encadrant/**").hasAuthority("ENCADRANT")
+                        .requestMatchers(HttpMethod.DELETE, "/api/encadrant/**").hasAuthority("ENCADRANT")
+                        .requestMatchers(HttpMethod.PUT, "/api/encadrant/**").hasAuthority("ENCADRANT")
+
+                        .requestMatchers(HttpMethod.GET, "/api/stagiaire/**").hasAuthority("STAGIAIRE")
+                        .requestMatchers(HttpMethod.PUT, "/api/stagiaire/**").hasAuthority("STAGIAIRE")
+
+
                         .anyRequest().authenticated()
                 )
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))))

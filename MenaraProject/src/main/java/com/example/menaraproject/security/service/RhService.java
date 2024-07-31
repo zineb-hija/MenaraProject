@@ -124,7 +124,7 @@ public JwtResponse signIn(User user) {
 
 
     // Add and Get Methods for Encadrants and Stagiaires
-    public RH addEncadrantToRH(Long rhId, Encadrant encadrant) {
+    public Encadrant addEncadrantToRH(Long rhId, Encadrant encadrant) {
     RH rh = (RH) userDao.findById(rhId).orElse(null);
     if (rh != null) {
         Role role = roleService.findByAuthority("ENCADRANT");
@@ -135,35 +135,35 @@ public JwtResponse signIn(User user) {
         Collection<Role> roles = new ArrayList<>();
         roles.add(role);
         encadrant.setAuthorities(roles);
+        encadrant.setRh(rh);
         encadrant.setPassword(passwordEncoder.encode(encadrant.getPassword()));
-        userDao.save(encadrant);
-        rh.getEncadrants().add(encadrant);
-        userDao.save(rh);
-        return rh;
+        return   userDao.save(encadrant);
+
     }
     return null;
 }
 
-    public RH addStagiaireToRH(Long rhId, Stagiaire stagiaire) {
-        RH rh = (RH) userDao.findById(rhId).orElse(null);
-        if (rh != null) {
-            Role role = roleService.findByAuthority("STAGIAIRE");
-            if (role == null) {
-                role = new Role("STAGIAIRE");
-                roleService.save(role);
-            }
-            Collection<Role> roles = new ArrayList<>();
-            roles.add(role);
-            stagiaire.setAuthorities(roles);
-            stagiaire.setPassword(passwordEncoder.encode(stagiaire.getPassword()));  // Ensure BCrypt encoding
-
-            rh.addStagiaire(stagiaire);
-            userDao.save(stagiaire); // Save the Stagiaire in the UserDao repository
-            return (RH) userDao.save(rh);
+public Stagiaire addStagiaireToRH(Long rhId, Long encadrantId, Stagiaire stagiaire) {
+    RH rh = (RH) userDao.findById(rhId).orElse(null);
+    Encadrant encadrant = (Encadrant) userDao.findById(encadrantId).orElse(null);
+    if (rh != null && encadrant != null) {
+        Role role = roleService.findByAuthority("STAGIAIRE");
+        if (role == null) {
+            role = new Role("STAGIAIRE");
+            roleService.save(role);
         }
-        return null;
-    }
+        Collection<Role> roles = new ArrayList<>();
+        roles.add(role);
+        stagiaire.setAuthorities(roles);
+        stagiaire.setRh(rh);
+        stagiaire.setEncadrant(encadrant); // Assign the Stagiaire to the Encadrant
+        stagiaire.setPassword(passwordEncoder.encode(stagiaire.getPassword()));  // Ensure BCrypt encoding
 
+
+        return userDao.save(stagiaire); // Save the Stagiaire in the UserDao repository
+    }
+    return null;
+}
 
 
     // Delete Methods for Encadrants and Stagiaires
@@ -194,7 +194,7 @@ public JwtResponse signIn(User user) {
 
 
 
-    public RH updateEncadrantInRH(Long rhId, String encadrantUsername,Encadrant updatedEncadrant ) {
+    public Encadrant updateEncadrantInRH(Long rhId, String encadrantUsername,Encadrant updatedEncadrant ) {
         return userDao.findById(rhId)
                 .map(rh -> {
                     Encadrant encadrant = (Encadrant) userDao.findByUsername(encadrantUsername);
@@ -209,9 +209,9 @@ public JwtResponse signIn(User user) {
                         encadrant.setStagiaires(updatedEncadrant.getStagiaires());
                         encadrant.setTaches(updatedEncadrant.getTaches());
                         encadrant.setPassword(passwordEncoder.encode(updatedEncadrant.getPassword())); // Ensure BCrypt encoding
-                        userDao.save(encadrant); // Save the updated Encadrant in the UserDao repository
+                         // Save the updated Encadrant in the UserDao repository
                     }
-                    return (RH) userDao.save(rh);
+                    return userDao.save(encadrant);
                 })
                 .orElse(null);
     }
@@ -219,7 +219,7 @@ public JwtResponse signIn(User user) {
 
 
 
-    public RH updateStagiaireInRH(Long rhId, String stagiaireUsername, Stagiaire updatedStagiaire) {
+    public Stagiaire updateStagiaireInRH(Long rhId, String stagiaireUsername, Stagiaire updatedStagiaire) {
         return userDao.findById(rhId)
                 .map(rh -> {
                     Stagiaire stagiaire = (Stagiaire) userDao.findByUsername(stagiaireUsername);
@@ -230,12 +230,12 @@ public JwtResponse signIn(User user) {
                         stagiaire.setDatenaissance(updatedStagiaire.getDatenaissance());
                         stagiaire.setEcole(updatedStagiaire.getEcole());
                         stagiaire.setStatut(updatedStagiaire.getStatut());
-                        stagiaire.setTaches(updatedStagiaire.getTaches());
+                        //stagiaire.setTaches(updatedStagiaire.getTaches());
                         stagiaire.setEncadrant(updatedStagiaire.getEncadrant());
                         stagiaire.setPassword(passwordEncoder.encode(updatedStagiaire.getPassword()));  // Ensure BCrypt encoding
-                        userDao.save(stagiaire); // Save the updated Stagiaire in the UserDao repository
+                         // Save the updated Stagiaire in the UserDao repository
                     }
-                    return (RH) userDao.save(rh);
+                    return userDao.save(stagiaire);
                 })
                 .orElse(null);
     }

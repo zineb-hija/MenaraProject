@@ -1,6 +1,7 @@
 package com.example.menaraproject.security.model;
 
 import com.example.menaraproject.Model.Tache;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Stagiaire extends User {
 
     @ManyToOne
     @JoinColumn(name = "rh_id")
+    @JsonBackReference
     private RH rh;
     @OneToMany(mappedBy = "stagiaire")
     private Set<Tache> taches;

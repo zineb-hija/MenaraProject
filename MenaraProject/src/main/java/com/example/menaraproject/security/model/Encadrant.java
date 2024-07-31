@@ -2,12 +2,18 @@ package com.example.menaraproject.security.model;
 
 import com.example.menaraproject.Model.Projet;
 import com.example.menaraproject.Model.Tache;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.Set;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Encadrant extends User{
 
     public Encadrant() {
@@ -21,6 +27,7 @@ public class Encadrant extends User{
 
     @ManyToOne
     @JoinColumn(name = "rh_id")
+    @JsonBackReference
     private RH rh;
 
     @OneToMany(mappedBy = "encadrant")

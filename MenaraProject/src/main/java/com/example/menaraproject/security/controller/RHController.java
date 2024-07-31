@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/rh")
@@ -39,20 +40,21 @@ public class RHController {
     public UserDetails loadUserByUsername(@PathVariable String username) throws UsernameNotFoundException {
         return userService.loadUserByUsername(username);
     }
+
     @GetMapping("/role/{role}")
     public Collection<User> findByRole(@PathVariable String role) {
         return userService.findByRole(role);
     }
 
-    @PostMapping("/encadrant/{rhId}")
+    @PostMapping("/addencadrant/{rhId}")
     public User addEncadrant(@PathVariable Long rhId, @RequestBody Encadrant encadrant) {
         return ((RhService) userService).addEncadrantToRH(rhId, encadrant);
     }
 
 
-   @PostMapping("/stagiaire/{rhId}")
-    public User addStagiaire(@PathVariable Long rhId, @RequestBody Stagiaire stagiaire) {
-        return ((RhService) userService).addStagiaireToRH(rhId, stagiaire);
+    @PostMapping("/addstagiaire/{rhId}/{encadrantId}")
+    public User addStagiaire(@PathVariable Long rhId, @PathVariable Long encadrantId, @RequestBody Stagiaire stagiaire) {
+        return ((RhService) userService).addStagiaireToRH(rhId, encadrantId, stagiaire);
     }
 
 
@@ -71,24 +73,20 @@ public class RHController {
     public User updateEncadrant(@PathVariable Long rhid, @PathVariable String encadrantusername, @RequestBody Encadrant encadrant) {
         return ((RhService) userService).updateEncadrantInRH(rhid, encadrantusername, encadrant);
     }
+
     @PutMapping("/updatestagiaire/{rhid}/{stagiaireusername}")
     public User updateStagiaire(@PathVariable Long rhid, @PathVariable String stagiaireusername, @RequestBody Stagiaire stagiaire) {
         return ((RhService) userService).updateStagiaireInRH(rhid, stagiaireusername, stagiaire);
     }
 
 
-
-   /* @PutMapping("/{id}")
-    public RH updateRH(@PathVariable Long id, @RequestBody RH rhDetails) {
-        return rhService.updateRH(id, rhDetails);
+    @GetMapping("/encadrants/{rhId}")
+    public Set<Encadrant> getEncadrants(@PathVariable Long rhId) {
+        return ((RhService) userService).getEncadrantsOfRH(rhId);
+    }
+    @GetMapping("/stagiaires/{rhId}")
+    public Set<Stagiaire> getStagiaires(@PathVariable Long rhId) {
+        return ((RhService) userService).getStagiairesOfRH(rhId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRH(@PathVariable Long id) {
-        rhService.deleteRH(id);
-    }*/
-   @PostMapping("/login")
-   public JwtResponse signIn(@RequestBody User user) {
-       return userService.signIn(user);
-   }
 }

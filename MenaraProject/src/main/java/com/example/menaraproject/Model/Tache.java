@@ -3,12 +3,18 @@ package com.example.menaraproject.Model;
 
 import com.example.menaraproject.security.model.Encadrant;
 import com.example.menaraproject.security.model.Stagiaire;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Tache {
 
     @Id
